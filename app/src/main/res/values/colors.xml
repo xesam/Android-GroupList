@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="feed_bg">#FFF4F6FA</color>
+    <color name="text_primary">#FF1D2433</color>
+    <color name="text_secondary">#FF2E3A52</color>
+    <color name="text_muted">#FF5C6678</color>
+
+    <color name="feed_standalone_bg">#FFF2F6FF</color>
+    <color name="feed_standalone_stroke">#FFD9E4FF</color>
+
+    <color name="feed_header_bg">#FFE9FFF6</color>
+    <color name="feed_header_stroke">#FFBAEFD7</color>
+
+    <color name="feed_item_bg">#FFFFFFFF</color>
+    <color name="feed_item_stroke">#FFE4E9F2</color>
+
+    <color name="feed_footer_bg">#FFF8FAFD</color>
+    <color name="feed_footer_stroke">#FFE6ECF4</color>
+
+    <color name="feed_tag_bg">#FFDDEBFF</color>
+    <color name="feed_tag_text">#FF244A8D</color>
+    <color name="feed_avatar_bg">#FF5D7DBA</color>
+    <color name="skeleton_block">#FFE6EBF3</color>
+    <color name="filter_chip_default_bg">#FFFFFFFF</color>
+    <color name="filter_chip_default_stroke">#FFD9E4FF</color>
+    <color name="filter_chip_default_text">#FF325275</color>
+    <color name="filter_chip_selected_bg">#FFDDEBFF</color>
+    <color name="filter_chip_selected_stroke">#FFB5CBF3</color>
+    <color name="filter_chip_selected_text">#FF193A77</color>
+
+    <color name="topic_header_bg">#FFFFF6E7</color>
+    <color name="topic_header_stroke">#FFF4D8A8</color>
+    <color name="topic_item_bg">#FFFFFFFF</color>
+    <color name="topic_item_stroke">#FFF2E4C9</color>
+    <color name="topic_footer_bg">#FFFFFAF1</color>
+    <color name="topic_footer_stroke">#FFF4E6C9</color>
+    <color name="topic_chip_bg">#FFFFE3B5</color>
+    <color name="topic_chip_text">#FF7A4B00</color>
+    <color name="topic_vote_bg">#FFFFECD0</color>
+    <color name="topic_vote_text">#FF7A4B00</color>
+</resources>
