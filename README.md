@@ -8,6 +8,16 @@
 业务对象 -> Engine -> ListSnapshot -> RecyclerView Adapter
 ```
 
+<br />
+
+**示例截图：**
+
+![screenshot](./screenshot.jpg)
+
+<br />
+
+<br />
+
 **其他文档：**
 
 - 想了解库内部原理 → [docs/how-it-works.md](docs/how-it-works.md)
@@ -226,10 +236,10 @@ dependencies {
 
 ## 3. 核心设计：Core 与 Engine 两层
 
-| 层 | 输入 | 定位 |
-|----|------|------|
+| 层              | 输入              | 定位                             |
+| -------------- | --------------- | ------------------------------ |
 | **Engine**（推荐） | 业务对象（`List<?>`） | 按 `GroupSchema` 自动把业务对象转成内部行结构 |
-| **Core**（进阶） | 手动构造 `CoreRow` | 需要精确控制每一行结构时的底层通道 |
+| **Core**（进阶）   | 手动构造 `CoreRow`  | 需要精确控制每一行结构时的底层通道              |
 
 ```mermaid
 flowchart LR
@@ -432,12 +442,12 @@ class FeedAdapter extends CompanyBaseAdapter {
 
 两条路径的对应关系与取舍：
 
-| | 继承（`GroupListRecyclerAdapter`） | 组合（`SnapshotAdapterDelegate`） |
-|---|---|---|
-| 适用 | 新页面，快速接入 | 存量基类 Adapter，`extends` 名额被占用 |
-| 展开 | 覆写 protected `requestSetGroupExpanded` 钩子 | `setOnExpansionRequest` 回调 |
-| 定制通知 | 覆写 protected `notifyXxxCompat` 族 | 直接实现 `SnapshotAdapterDelegate.Notifier` |
-| 行为等价性 | 同一份实现，两套测试覆盖各自的接入面 | 同左 |
+| <br /> | 继承（`GroupListRecyclerAdapter`）            | 组合（`SnapshotAdapterDelegate`）           |
+| ------ | ----------------------------------------- | --------------------------------------- |
+| 适用     | 新页面，快速接入                                  | 存量基类 Adapter，`extends` 名额被占用            |
+| 展开     | 覆写 protected `requestSetGroupExpanded` 钩子 | `setOnExpansionRequest` 回调              |
+| 定制通知   | 覆写 protected `notifyXxxCompat` 族          | 直接实现 `SnapshotAdapterDelegate.Notifier` |
+| 行为等价性  | 同一份实现，两套测试覆盖各自的接入面                        | 同左                                      |
 
 > **关于"等价"**：门面是纯转发，`SnapshotAdapterDelegate` 是本层唯一实现——不存在第二份实现可供对照，
 > 因此这里说的是"同一实现、两个入口"，而非"两份实现互证等价"。两套测试各自钉住只有本入口会坏的接线：
@@ -512,13 +522,9 @@ state.toggleGroup(groupKey)           // 展开 / 收起
 ## 8. 公开契约
 
 1. **展开状态单一事实源**：只在 controller 里，通过 `controller.isGroupExpanded(key)` 查询，业务方不要再持有第二份副本。
-
-2. **`submit()` 重置展开状态**：完整重载语义，收平全部展开状态到初始值。过滤（`SetVisibilityFilter`）、子项替换（`ReplaceChildren`）、standalone 局部更新（`UpdateStandalone`）走 `EngineCommand` 增量通道，展开意图跨命令、跨隐藏存活。**逐页追加行不在其中**：`EngineCommand` 没有追加命令，用 `submit` 追加会把展开态一起重置。追加又要保住展开态，目前只能下到 Core 层用 `CoreCommand.ReplaceRows`（键控全量 reconcile，不清展开态，允许 standalone 增删与移动）。
-
-3. **`GroupKey` 必须稳定**：key 跨过滤、跨隐藏期持续有效，是展开状态 map 的键；不要用时间戳、自增序号、内容哈希等动态成分作 key。
-
+2. **`submit()`** **重置展开状态**：完整重载语义，收平全部展开状态到初始值。过滤（`SetVisibilityFilter`）、子项替换（`ReplaceChildren`）、standalone 局部更新（`UpdateStandalone`）走 `EngineCommand` 增量通道，展开意图跨命令、跨隐藏存活。**逐页追加行不在其中**：`EngineCommand` 没有追加命令，用 `submit` 追加会把展开态一起重置。追加又要保住展开态，目前只能下到 Core 层用 `CoreCommand.ReplaceRows`（键控全量 reconcile，不清展开态，允许 standalone 增删与移动）。
+3. **`GroupKey`** **必须稳定**：key 跨过滤、跨隐藏期持续有效，是展开状态 map 的键；不要用时间戳、自增序号、内容哈希等动态成分作 key。
 4. **线程契约**：controller 非线程安全，`submit / dispatch / snapshot` 须在单线程（通常是主线程）调用。
-
 5. **ChangeSet 消费协议**：连续 `dispatch` 不消费会累积操作；`snapshot()` 是纯只读可重复读，`hasPendingChanges()` 非消费探测，`takeChangeSet()` 是唯一消费点（取走并清空 pending）。
 
 ## 9. License
