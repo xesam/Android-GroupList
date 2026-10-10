@@ -201,15 +201,7 @@ viewModel.markConsumed();
 
 ## 2. 安装
 
-当前已验证的是本地发布到 `Maven Local`。
-
-先发布到本地：
-
-```bash
-./gradlew :grouplist-core:publishToMavenLocal :grouplist-recyclerview:publishToMavenLocal :grouplist-compose:publishToMavenLocal
-```
-
-发布坐标：
+已发布到 Maven Central，坐标：
 
 - `groupId`: `io.github.xesam`
 - `android-grouplist-core`: 核心层（纯 JVM）
@@ -217,11 +209,10 @@ viewModel.markConsumed();
 - `android-grouplist-compose`: Compose 适配层（可选）
 - `version`: `0.0.1`
 
-然后在你的工程中启用 `mavenLocal()` 并添加依赖：
+然后在你的工程中添加依赖（`mavenCentral()` 通常是新建工程的默认仓库）：
 
 ```kotlin
 repositories {
-    mavenLocal()
     google()
     mavenCentral()
 }
